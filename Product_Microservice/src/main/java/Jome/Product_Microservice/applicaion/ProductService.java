@@ -26,9 +26,10 @@ public class ProductService {
     * */
 
 
-    public String isDataFlowWorking(){
+    public String isDataFlowWorking(Long id){
 
-        String ProductServiceString = "Hello from Product Service";
+        // in this place the Use case should be implemented
+        String ProductServiceString = String.format("Hello from Product Micro Service, passed id : %d ", id);
 
         return ProductServiceString;
 

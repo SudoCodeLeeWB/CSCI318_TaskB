@@ -2,7 +2,9 @@ package Jome.Product_Microservice.presentation;
 
 import Jome.Product_Microservice.applicaion.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -20,19 +22,20 @@ public class ProductController {
     /*
     * TODO:
     *  add REST mappings for the usecase api calls
-    *
+    * Implment DTO layer
+    * Implement Try-Catch here : Restcontroller => Service
     * */
 
 
-    // for connection testing
-    @GetMapping("/get")
-    public String connectionString(){
+    // implement the try catch for here
+    @GetMapping("/getProduct/{productId}")
+    public ResponseEntity<String> connectionString(@PathVariable Long productId){
 
-        String result = productService.isDataFlowWorking();
-
-        return result ;
-
+        String result = productService.isDataFlowWorking(productId);
+        return ResponseEntity.ok(result);
     }
+
+
 
 
 

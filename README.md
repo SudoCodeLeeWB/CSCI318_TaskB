@@ -36,17 +36,26 @@ ___
 * Should be working using curl
 
 #### Format
-  * UseCase : 
+  * UseCase :
   * Windows Powershell
   * Windows cmd
   * Macos / Linux 
 
 ___
 
+### Sample rest connection from Api router to microservice server: 
+`curl -X GET http://localhost:8080/api/products/getProduct/13 `
+
+-> It will return the hello from the microservice Product 
+
+
+
 ### Tasks to be done :
 1. Implemented the sample connection for the Product_microservice  => done
-2. Make the api gateway ( port 8080 ) to forward the response from the microservices. 
-3. Set the usecase for each micro services 
+2. Make the api gateway ( port 8080 ) to forward the response from the microservices.  => done
+   1. Apply the try catch for httpresponse. 
+   2. 
+3. Set the usecase for each micro services
 4. implement the each microservice usecase 
 5. Add a sample rest call & api gateway calls
 6. Project done
