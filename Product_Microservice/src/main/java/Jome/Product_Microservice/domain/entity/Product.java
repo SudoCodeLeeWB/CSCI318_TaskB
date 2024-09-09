@@ -12,17 +12,38 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
+    private int quantity;
+    private String description;
+    private String category;
 
 
-    // constructor => needs to be implemented later.
-    public Product() {
+    // constructor => needs to be implemented later. // overload
 
+    public Product(){}
+
+    public Product( String fullName) {
+        this.fullName = fullName;
+        this.quantity = 0;  // when init =>  the quantity is 0
+        this.description = "";
+    }
+
+    public Product(String fullName , String description ){
+        this.fullName = fullName;
+        this.description = description;
+        this.quantity = 0;
+    }
+
+    public Product(String fullName , String description , int quantity ){
+        this.fullName = fullName;
+        this.description = description;
+        this.quantity= quantity;
     }
 
     public void setId(Long id) {
         this.id = id;
     }
 
+    // this needs to be hidden?
     public Long getId() {
         return id;
     }
@@ -34,4 +55,28 @@ public class Product {
     public String getFullName(){
         return fullName;
     }
+
+    public int getQuantity(){
+        return quantity;
+    }
+    public void setQuantity( int quantity){
+        this.quantity = quantity;
+    }
+
+    public String getDescription(){
+        return description;
+    }
+
+    public  void setDescription(){
+        this.description = description;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
 }

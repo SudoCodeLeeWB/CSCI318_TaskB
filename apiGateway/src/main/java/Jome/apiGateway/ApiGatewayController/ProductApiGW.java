@@ -1,13 +1,13 @@
 package Jome.apiGateway.ApiGatewayController;
 
+// to use the Api Gateway helper -> The static method
+import Jome.apiGateway.ApiGatewayController.ApiGatewayHelper;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 
@@ -23,46 +23,43 @@ public class ProductApiGW {
     private String productMicroServiceUrl;
 
     @Autowired
-    public ProductApiGW(RestTemplate restTemplate){
+    public ProductApiGW(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
 
-    /* TODO :
-    * Implement the timeout => inside of the restTemplate config
-    * Add more usecases routing to the microservices
-    * */
+    // The string will become some_DTO object later
+    @GetMapping("/getProduct/{productId}")
+    public ResponseEntity<String> getProductById(@PathVariable Long productId) {
 
-
-    // sample call for connection testing
-    @GetMapping("getProduct/{productId}")
-    public ResponseEntity<String> getProductById(@PathVariable Long productId){
-
-        // the call should be same from the microservice @GetMapping
-        // The Url is embedded in the Value as an application properties
-        String productServiceUrl = productMicroServiceUrl + "/getProduct/" + productId;
-
-        try{
-            ResponseEntity<String> returnValue =  restTemplate.getForEntity(productServiceUrl , String.class);
-
-            // condition where the status code is 200, but there are no contents inside
-            if(returnValue.getBody() == null){
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-            return returnValue;
-        }
-        catch(Exception ex){
-            // if any RestClientException is thrown, will not expose the direct issue to the user.
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        String microServiceMapping = "/get/" + productId;
+        return ApiGatewayHelper.forwardRequest(restTemplate, productMicroServiceUrl, microServiceMapping, HttpMethod.GET, String.class);
     }
 
 
+    // currently it just returns the result from application layer from each microservice.
 
-    // other rest api calls
-    // @GetMapping
-
-
+//    // Use Case 1 : Add new product
+//    @PostMapping("/create")
+//    public ResponseEntity<String> addProduct() {
+//    }
+//
+//    // Use Case 2 : Update Product Stock
+//    @PatchMapping("/patch")
+//    public ResponseEntity<String> updateProduct() {
+//
+//    }
+//
+//    // Use Case 3 : Search Products with string
+//    @GetMapping("/search")
+//    public ResponseEntity<String> searchProduct() {
+//    }
+//
+//
+//    // Use Case 4 : View 10 Preferred Category product
+//    @GetMapping("/prefer")
+//    public ResponseEntity<String> preferredProduct() {
+//    }
 
 
 }
