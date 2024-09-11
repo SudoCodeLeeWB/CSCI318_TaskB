@@ -31,7 +31,7 @@ public class ProductDTO {
 
     // static method to convert a class to Dto, with quantity
     public static ProductDTO convertToDTO_quantity(Product product){
-        return new ProductDTO( product.getFullName() , product.getQuantity());
+        return new ProductDTO( product.getFullName() , product.getStock());
     }
 
 

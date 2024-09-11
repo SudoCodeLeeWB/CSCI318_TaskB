@@ -12,38 +12,36 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String fullName;
-    private int quantity;
     private String description;
+    private int price;
+    private int stock;
     private String category;
 
 
-    // constructor => needs to be implemented later. // overload
 
-    public Product(){}
+    // constructor
+    protected Product(){}
 
-    public Product( String fullName) {
-        this.fullName = fullName;
-        this.quantity = 0;  // when init =>  the quantity is 0
-        this.description = "";
-    }
-
-    public Product(String fullName , String description ){
+    public Product(String fullName , String description , int stock , int price , String category ){
         this.fullName = fullName;
         this.description = description;
-        this.quantity = 0;
+        this.price = price;
+        this.stock= stock;
+        this.category = category;
     }
 
-    public Product(String fullName , String description , int quantity ){
-        this.fullName = fullName;
-        this.description = description;
-        this.quantity= quantity;
+
+
+    // Actually valuable methods TODO for business logic
+
+    public boolean isAvailable(){
+        return stock > 0 ;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    // this needs to be hidden?
+    // Getters and setters
+
+    // No setter for id => Automatically generated in the Database
     public Long getId() {
         return id;
     }
@@ -54,13 +52,6 @@ public class Product {
 
     public String getFullName(){
         return fullName;
-    }
-
-    public int getQuantity(){
-        return quantity;
-    }
-    public void setQuantity( int quantity){
-        this.quantity = quantity;
     }
 
     public String getDescription(){
@@ -79,4 +70,19 @@ public class Product {
         this.category = category;
     }
 
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
 }
