@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>Jome</groupId>
-	<artifactId>User_Microservice</artifactId>
+	<artifactId>Customer_Microservice</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>User_Microservice</name>
+	<name>Customer_Microservice</name>
 	<description>Microservices handles Users</description>
 	<url/>
 	<licenses>
