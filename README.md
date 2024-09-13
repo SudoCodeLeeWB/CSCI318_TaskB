@@ -8,7 +8,7 @@ ___
 ### Microservice Ports:
 * Api gateway : 8080
 * Product Microservice : 8081  
-* User Microservice : 8082
+* Customer Microservice : 8082
 * Order Microservice : 8083
 
 ___
@@ -130,3 +130,43 @@ curl -X POST "http://localhost:8081/create" -H "Content-Type: application/json" 
 
 This creates a new product with the provided details.
 
+___
+
+## Customer Microservice Testing 
+
+
+### 1. Add New Customer (`/create`)
+
+#### Sample `curl` Command:
+
+```bash
+
+curl -X POST "http://localhost:8082/create" -H "Content-Type: application/json" -d '{
+    "f_name": "John",
+    "l_name": "Doe",
+    "email": "john.doe@example.com",
+    "address": {
+        "street": "123 Main St",
+        "state": "California",
+        "country": "USA",
+        "postCode": "90001"
+    },
+    "preferenceCategory": "Electronics"
+}'
+```
+
+### 2. Update User information
+
+```bash
+curl -X PATCH "http://localhost:8082/patch/3" -H "Content-Type: application/json" -d '{
+    "f_name": "John",
+    "l_name": "Doe",
+    "email": "john.doe@example.com",
+    "address": {
+        "street": "456 Oak St",
+        "state": "Texas",
+        "country": "USA",
+        "postCode": "73301"
+    },
+    "preferenceCategory": "Books"
+}'
