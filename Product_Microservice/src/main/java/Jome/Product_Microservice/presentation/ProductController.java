@@ -1,12 +1,14 @@
 package Jome.Product_Microservice.presentation;
 
 import Jome.Product_Microservice.applicaion.ProductService;
-import Jome.Product_Microservice.domain.entity.Product;
 import Jome.Product_Microservice.dto.ProductDTO;
+import Jome.Product_Microservice.dto.ProductStockDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class ProductController {
@@ -18,14 +20,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-
     /*
-    * TODO:
-    *  add REST mappings for the usecase api calls
-    * Implment DTO layer
-    * Restcontroller => Service
-    *
-    * */
+     Rest Controller => Service
+     Required steps : refer to the First use case
+     Step 1 : implement the Use case in the Service
+     Step 2 : Define the use case's return value
+     Step 3 : Fix the Return generics of a ResponseEntity
+     */
 
 
     // implement the try catch for here
@@ -36,16 +37,10 @@ public class ProductController {
         return ResponseEntity.ok(result);
     }
 
-    // TODO : Implement the each use cases
-    // Required steps :
-    // Step 1 : implement the Use case in the Service
-    // Step 2 : Define the use case's return value
-    // Step 3 : Fix the Return generics of a ResponseEntity
-
 
     // Use Case 1 : Add the product
     @PostMapping("/create")
-    public ResponseEntity<ProductDTO> addNewProduct(@RequestBody Product product){
+    public ResponseEntity<ProductDTO> addNewProduct(@RequestBody ProductDTO product){
         try {
             ProductDTO result = productService.addNewProduct(product);
             return ResponseEntity.ok(result);
@@ -56,30 +51,55 @@ public class ProductController {
     }
 
 
+    // Use Case 2 : Update Product Stock
+    // Send the product name and new quantity using
+    @PatchMapping("/patch/{product_id}/{quantity}")
+    public ResponseEntity<ProductStockDTO> updateProductStock(@PathVariable Long product_id , @PathVariable int quantity){
 
-//
-//    // Use Case 2 : Update Product Stock
-//    // Send the product name and new quantity using
-//    @PatchMapping("/patch/{product_name}/{quantity}")
-//    public ResponseEntity<Object> updateProduct(@PathVariable String product_name , @PathVariable int quantity){
-//
-//        try{
-//            ProductDTO updateResult = productService.updateProductStock( product_name , quantity);
-//        }
-//
-//    }
+        try{
+            ProductStockDTO updateResult = productService.updateProductStock( product_id , quantity);
+            return ResponseEntity.ok(updateResult);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // Use Case 3 : View Preferred Category product
+    @GetMapping("/get/prefer/{customer_id}")
+    public ResponseEntity<List<ProductDTO>> getPreferenceProduct(@PathVariable Long customer_id){
+
+        try{
+            List<ProductDTO> preferProducts = productService.getPreferredItems(customer_id);
+            return ResponseEntity.ok(preferProducts);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
+    // Use Case 4 : Get Items which quantity is more than 1
+    @GetMapping("/get/available")
+    public ResponseEntity<List<ProductStockDTO>> preferredProduct(){
+
+        try{
+            List<ProductStockDTO> availableProducts = productService.getAvailableItems();
+            return ResponseEntity.ok(availableProducts);
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
+    // Other Calls that needs to be used for Complex Usecases  : TODO
 
 
 
-//
-//    // Use Case 3 : Search Products with string
-//    @GetMapping("/search")
-//    public ResponseEntity<Object> searchProduct(){}
-//
-//
-//    // Use Case 4 : View 10 Preferred Category product
-//    @GetMapping("/prefer")
-//    public ResponseEntity<Object> preferredProduct(){}
-//
+
 
 }
