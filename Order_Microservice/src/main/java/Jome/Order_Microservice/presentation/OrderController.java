@@ -16,5 +16,18 @@ public class OrderController {
     }
 
 
+    // Use Case 1 : Add A new product to the order
+
+
+
+    // Use Case 2 : View Past orders of a user
+
+
+
+    // Use Case 3 :  Place Order
+
+
+
+
 
 }

@@ -1,5 +1,6 @@
 package Jome.Product_Microservice.domain.entity;
 
+import Jome.Product_Microservice.dto.ProductDTO;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -23,10 +24,11 @@ public class Product {
     protected Product(){}
 
     public Product(String fullName , String description , int stock , int price , String category ){
+        this.id = null;
         this.fullName = fullName;
         this.description = description;
-        this.price = price;
         this.stock= stock;
+        this.price = price;
         this.category = category;
     }
 
@@ -38,6 +40,16 @@ public class Product {
         return stock > 0 ;
     }
 
+
+    public static Product convertTOAggregate(ProductDTO productDTO){
+        return new Product(
+                productDTO.getFullName(),
+                productDTO.getDescription(),
+                productDTO.getStock(),
+                productDTO.getPrice(),
+                productDTO.getCategory()
+        );
+    }
 
     // Getters and setters
 
