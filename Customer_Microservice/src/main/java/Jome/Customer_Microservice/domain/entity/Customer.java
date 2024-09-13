@@ -1,10 +1,11 @@
-package Jome.User_Microservice.domain.entity;
+package Jome.Customer_Microservice.domain.entity;
 
-import Jome.User_Microservice.domain.valueobject.Address;
+import Jome.Customer_Microservice.domain.valueobject.Address;
+import Jome.Customer_Microservice.dto.CustomerDTO;
 import jakarta.persistence.*;
 
 @Entity
-public class ServiceUser {
+public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,9 +18,10 @@ public class ServiceUser {
     private String preferenceCategory;
 
     // constructor
-    protected ServiceUser(){}
+    protected Customer(){}
 
-    public ServiceUser(String f_name , String l_name , String email , Address address , String preferenceCategory ){
+    public Customer(String f_name , String l_name , String email , Address address , String preferenceCategory ){
+        this.id = null;
         this.f_name = f_name;
         this.l_name = l_name;
         this.email = email;
@@ -27,6 +29,32 @@ public class ServiceUser {
         this.preferenceCategory = preferenceCategory;
 
     }
+
+
+    public static Customer convertToAggregate(CustomerDTO customerDTO){
+
+        return new Customer(
+                customerDTO.getF_name(),
+                customerDTO.getL_name(),
+                customerDTO.getEmail(),
+                customerDTO.getAddress(),
+                customerDTO.getPreferenceCategory()
+        );
+
+    }
+
+    public void update(CustomerDTO customerDTO){
+
+                 this.f_name = customerDTO.getF_name();
+                this.l_name = customerDTO.getL_name();
+                this.email = customerDTO.getEmail();
+                this.address = customerDTO.getAddress();
+                this.preferenceCategory = customerDTO.getPreferenceCategory();
+
+    }
+
+
+    // getters and setters
 
     public Long getId() {
         return id;

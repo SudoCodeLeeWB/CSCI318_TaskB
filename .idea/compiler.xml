@@ -9,15 +9,15 @@
         <module name="apiGateway" />
         <module name="Order_Microservice" />
         <module name="Product_Microservice" />
-        <module name="User_Microservice" />
+        <module name="Customer_Microservice" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Customer_Microservice" options="-parameters" />
       <module name="Order_Microservice" options="-parameters" />
       <module name="Product_Microservice" options="-parameters" />
-      <module name="User_Microservice" options="-parameters" />
       <module name="apiGateway" options="-parameters" />
     </option>
   </component>

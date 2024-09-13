@@ -1,4 +1,4 @@
-package Jome.User_Microservice.domain.valueobject;
+package Jome.Customer_Microservice.domain.valueobject;
 
 import jakarta.persistence.Embeddable;
 
@@ -19,8 +19,6 @@ public class Address {
         this.postCode = postCode;
 
     }
-
-
 
 
     // getters
