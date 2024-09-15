@@ -5,6 +5,7 @@ import Jome.Order_Microservice.domain.entity.ProductInfo;
 import Jome.Order_Microservice.dto.ProductInOrderDTO;
 import Jome.Order_Microservice.dto.ProductInfoDTO;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentCompleteEvent {
@@ -17,6 +18,7 @@ public class PaymentCompleteEvent {
 
     public PaymentCompleteEvent(CustomerOrder order) {
         this.customerId = order.getCustomerID();
+        this.products = new ArrayList<>();
 
         for (ProductInfo product : order.getIncludedProducts()) {
             this.addProduct(ProductInfoDTO.convertToDTO(product));

@@ -78,7 +78,9 @@ public class OrderDomainService {
 
     @Transactional
     public void PaymentCompleteAlert(CustomerOrder order){
+        System.out.println(order);
         PaymentCompleteEvent event = new PaymentCompleteEvent(order);
+        System.out.println(event);
         eventPublisher.deductEventPublish(event);
 
     }

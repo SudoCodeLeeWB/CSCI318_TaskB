@@ -67,6 +67,9 @@ public class ProductService {
 
         // step 1 : get the prefered category from the user ( the user's catgory is from id of a user )
         // TODO ==> placeholder
+
+        
+
         String category =  "Electronics"; // ( some outbound calls to the other microservice )
 
 

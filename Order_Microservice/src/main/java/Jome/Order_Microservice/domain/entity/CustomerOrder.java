@@ -20,7 +20,9 @@ public class CustomerOrder {
 
     private boolean paid ;
 
-    @OneToMany
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_order_id")  // Links ProductInfo to CustomerOrder
     private List<ProductInfo> includedProducts = new ArrayList<>();
 
     @Embedded
