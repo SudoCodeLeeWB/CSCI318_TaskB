@@ -3,6 +3,7 @@ package Jome.Customer_Microservice.application;
 import Jome.Customer_Microservice.domain.entity.Customer;
 import Jome.Customer_Microservice.domain.service.CustomerDomainService;
 import Jome.Customer_Microservice.dto.CustomerDTO;
+import Jome.Customer_Microservice.dto.CustomerPreferenceDTO;
 import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToStdout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,11 @@ public class CustomerService {
 
     }
 
+
+    public CustomerPreferenceDTO getPreference(Long Id){
+        return new CustomerPreferenceDTO(customerDomainService.getUser(Id));
+
+    }
 //
 
 

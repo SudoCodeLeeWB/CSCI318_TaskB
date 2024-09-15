@@ -2,11 +2,13 @@ package Jome.Product_Microservice.applicaion;
 
 import Jome.Product_Microservice.domain.entity.Product;
 import Jome.Product_Microservice.domain.service.ProductDomainService;
+import Jome.Product_Microservice.dto.CustomerPreferenceDTO;
 import Jome.Product_Microservice.dto.ProductDTO;
 import Jome.Product_Microservice.dto.ProductInOrderDTO;
 import Jome.Product_Microservice.dto.ProductStockDTO;
 import Jome.Product_Microservice.infrastructure.event.PaymentCompleteEvent;
 import Jome.Product_Microservice.infrastructure.event.ProductInfoDTO;
+import Jome.Product_Microservice.infrastructure.service.ApplicationHelperSevice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,12 @@ import java.util.List;
 public class ProductService {
 
     private final ProductDomainService productDomainService;
+    private final ApplicationHelperSevice helper;
 
     @Autowired
-    public ProductService(ProductDomainService productDomainService) {
+    public ProductService(ProductDomainService productDomainService, ApplicationHelperSevice helper) {
         this.productDomainService = productDomainService;
+        this.helper = helper;
     }
 
 
@@ -66,16 +70,10 @@ public class ProductService {
     public List<ProductDTO> getPreferredItems(Long id){
 
         // step 1 : get the prefered category from the user ( the user's catgory is from id of a user )
-        // TODO ==> placeholder
-
-        
-
-        String category =  "Electronics"; // ( some outbound calls to the other microservice )
-
-
+        CustomerPreferenceDTO category = helper.getCustomerInfo(id);
 
         // step 2 : get the items  which has same category, from the database
-        List<Product> products = productDomainService.categoryProducts(category);
+        List<Product> products = productDomainService.categoryProducts(category.getPreferenceCategory());
 
         // step 3 : make these items as a DTO , and return the list of it
         List<ProductDTO> preferProductDTOList = new ArrayList<>();
