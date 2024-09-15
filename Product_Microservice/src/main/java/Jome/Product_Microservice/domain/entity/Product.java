@@ -27,7 +27,7 @@ public class Product {
         this.id = null;
         this.fullName = fullName;
         this.description = description;
-        this.stock= stock;
+        this.stock = stock;
         this.price = price;
         this.category = category;
     }

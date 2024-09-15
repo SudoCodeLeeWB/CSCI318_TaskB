@@ -53,14 +53,15 @@ public class ProductController {
 
     // Use Case 2 : Update Product Stock
     // Send the product name and new quantity using
-    @PatchMapping("/patch/{product_id}/{quantity}")
-    public ResponseEntity<ProductStockDTO> updateProductStock(@PathVariable Long product_id , @PathVariable int quantity){
-
+    @PatchMapping("/patch/{productId}/{quantity}")
+    public ResponseEntity<ProductStockDTO> updateProductStock(@PathVariable Long productId, @PathVariable int quantity){
         try{
-            ProductStockDTO updateResult = productService.updateProductStock( product_id , quantity);
+            ProductStockDTO updateResult = productService.updateProductStock( productId , quantity);
             return ResponseEntity.ok(updateResult);
         }
         catch(Exception e){
+            System.out.println("prod controller exception");
+
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
