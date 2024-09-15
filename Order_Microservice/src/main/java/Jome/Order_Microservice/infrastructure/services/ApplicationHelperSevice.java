@@ -18,10 +18,10 @@ public class ApplicationHelperSevice {
     @Value("${product.service.url}")
     private String productMicroServiceUrl;
 
-    @Value("order.service.url")
+    @Value("${order.service.url}")
     private String orderMicroServiceUrl;
 
-    @Value("user.service.url")
+    @Value("${user.service.url}")
     private String userMicroServiceUrl;
 
  @Autowired
@@ -40,7 +40,7 @@ public class ApplicationHelperSevice {
 
 public CustomerDTO getCustomerInfo (Long customerId ){
      String microServiceMapping = "/get/" + customerId;
-    ResponseEntity<CustomerDTO> microServiceQueryResult =  ForwardHelper.forwardRequest(restTemplate , productMicroServiceUrl, microServiceMapping, HttpMethod.GET , CustomerDTO.class);
+    ResponseEntity<CustomerDTO> microServiceQueryResult =  ForwardHelper.forwardRequest(restTemplate , userMicroServiceUrl, microServiceMapping, HttpMethod.GET , CustomerDTO.class);
 
     CustomerDTO data = microServiceQueryResult.getBody();
     return data;

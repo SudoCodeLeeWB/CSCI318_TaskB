@@ -28,7 +28,7 @@ public class ProductService {
     * TODO :
     * 1. implement the actual business logic here ( divide the usecase into smaller tasks )
     *  => the method is a usecase and the inner logic is a subdivided tasks for the usecase.
-    * 2. include required methods & repositories
+    * 2. include required menthods & repositories
     *   Ex) api call for other microservice --> call other microservice | call the repository ( done )
     *
     * */

@@ -38,7 +38,6 @@ public class CustomerService {
 
     // To be used in other microservice
     public CustomerDTO getUser(Long Id){
-
         return customerDomainService.getUser(Id);
 
     }
