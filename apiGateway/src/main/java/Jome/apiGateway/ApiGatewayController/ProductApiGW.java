@@ -3,6 +3,7 @@ package Jome.apiGateway.ApiGatewayController;
 // to use the Api Gateway helper -> The static method
 import Jome.apiGateway.ApiGatewayController.ApiGatewayHelper;
 
+import Jome.apiGateway.dto.ProductDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpMethod;
@@ -28,7 +29,7 @@ public class ProductApiGW {
     }
 
 
-    // The string will become some_DTO object later
+    // The string will become some_DTO object later => needs to be modified? TODO
     @GetMapping("/getProduct/{productId}")
     public ResponseEntity<String> getProductById(@PathVariable Long productId) {
 
@@ -39,10 +40,15 @@ public class ProductApiGW {
 
     // currently it just returns the result from application layer from each microservice.
 
-//    // Use Case 1 : Add new product
-//    @PostMapping("/create")
-//    public ResponseEntity<String> addProduct() {
-//    }
+    // Use Case 1 : Add new product
+    @PostMapping("/create")
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO body) {
+
+        String microServiceMapping ="/create";
+    return ApiGatewayHelper.forwardRequest(restTemplate, productMicroServiceUrl, microServiceMapping, HttpMethod.POST, body, ProductDTO.class);
+    }
+
+
 //
 //    // Use Case 2 : Update Product Stock
 //    @PatchMapping("/patch")

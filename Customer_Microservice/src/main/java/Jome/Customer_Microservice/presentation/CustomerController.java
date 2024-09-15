@@ -1,6 +1,7 @@
 package Jome.Customer_Microservice.presentation;
 
 import Jome.Customer_Microservice.application.CustomerService;
+import Jome.Customer_Microservice.domain.entity.Customer;
 import Jome.Customer_Microservice.dto.CustomerDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,17 @@ public class CustomerController {
     }
 
 
+    @GetMapping("/get/{customer_id}")
+    public ResponseEntity<CustomerDTO> getUser ( @PathVariable Long customer_id){
 
+        try {
+            CustomerDTO result = customerService.getUser(customer_id);
+            return ResponseEntity.ok(result);
+        }catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
 
 
 

@@ -1,52 +1,45 @@
 package Jome.Customer_Microservice.application;
 
 import Jome.Customer_Microservice.domain.entity.Customer;
+import Jome.Customer_Microservice.domain.service.CustomerDomainService;
 import Jome.Customer_Microservice.dto.CustomerDTO;
-import Jome.Customer_Microservice.infrastructure.persistence.CustomerRepository;
+import org.hibernate.tool.schema.internal.exec.ScriptTargetOutputToStdout;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class CustomerService {
 
-    private final CustomerRepository customerRepository;
+    private final CustomerDomainService customerDomainService;
+
 
     @Autowired
-    public CustomerService(CustomerRepository customerRepository) {
-        this.customerRepository = customerRepository;
+    public CustomerService(CustomerDomainService customerDomainService) {
+        this.customerDomainService = customerDomainService;
     }
 
 
     // Use Case 1 : Add new user
     public CustomerDTO addNewUser(CustomerDTO user){
 
-        // 1. convert the user Dto into user aggregate
-        Customer newUser = Customer.convertToAggregate(user);
-
-        // 2. Save it into the repository
-        Customer savedUser = customerRepository.save(newUser);
-
-        // return the result
-        return CustomerDTO.convertToDTO(savedUser);
+        return customerDomainService.addNewUser(user);
 
     }
 
     // Use Case 2 : Update User information
-    public CustomerDTO updateUser(Long Id , CustomerDTO c){
+    public CustomerDTO updateUser(Long Id , CustomerDTO customer){
 
-        Customer update = customerRepository.findById(Id)
-                .map(
-                        customer -> {
-                            // update the customer with customer DTO
-                            customer.update(c);
+        return customerDomainService.updateUser(Id , customer);
 
-                            // save the modified Aggregate
-                            return customerRepository.save(customer);
-                        }).orElseThrow( ()-> new RuntimeException("User not found with id : " + Id));
+    }
 
 
-        // wrap up with DTO and return
-        return CustomerDTO.convertToDTO(update);
+    // To be used in other microservice
+    public CustomerDTO getUser(Long Id){
+
+        return customerDomainService.getUser(Id);
 
     }
 

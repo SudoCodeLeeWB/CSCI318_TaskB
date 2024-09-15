@@ -1,9 +1,12 @@
 package Jome.Product_Microservice.applicaion;
 
 import Jome.Product_Microservice.domain.entity.Product;
+import Jome.Product_Microservice.domain.service.ProductDomainService;
 import Jome.Product_Microservice.dto.ProductDTO;
+import Jome.Product_Microservice.dto.ProductInOrderDTO;
 import Jome.Product_Microservice.dto.ProductStockDTO;
-import Jome.Product_Microservice.infrastructure.persistence.ProductRepository;
+import Jome.Product_Microservice.infrastructure.event.PaymentCompleteEvent;
+import Jome.Product_Microservice.infrastructure.event.ProductInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,12 +16,11 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    // product repository if needed.
-    private final ProductRepository productRepository;
+    private final ProductDomainService productDomainService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductService(ProductDomainService productDomainService) {
+        this.productDomainService = productDomainService;
     }
 
 
@@ -32,25 +34,17 @@ public class ProductService {
     * */
 
 
-    // only for debug & later usage
-    public String isDataFlowWorking(Long id){
-
-        // in this place the Use case should be implemented
-        return String.format("Hello from Product Micro Service, passed id : %d ", id);
-    }
-
-
-
     // Use Case 1 : Add new Product => return the saved product DTO as a result
     public ProductDTO addNewProduct(ProductDTO newProductDTO){  // consideration : we do not provide id normally,
+
 
         // 1. convert the product Dto into Product aggregate
         Product newProduct = Product.convertTOAggregate(newProductDTO);
 
-        // 2. save() expects Aggregate | Save this new product into DataBase
-        Product savedClass = productRepository.save(newProduct);
+        // 2. Save it in the repository
+        Product savedClass = productDomainService.addNewProduct(newProduct);
 
-        // 3. Convert the saved Product into DTO , and return it.
+        // 3. Wrap up as DTO and return
         return ProductDTO.convertToDTO(savedClass);
 
     }
@@ -59,17 +53,7 @@ public class ProductService {
     // Use case 2 : Update the Product Stock
    public ProductStockDTO updateProductStock(Long productId, int quantity ){
 
-        // Step 1 : Retrieve the original data from product Repository
-        Product result =  productRepository.findById(productId)
-                .map(
-                        product -> {
-
-                            // Step 2 : modify the aggregate
-                            product.setStock(quantity);
-
-                            // Step 3 : Save the modified Aggregate
-                            return productRepository.save(product);
-                        }).orElseThrow( () -> new RuntimeException("Product Not found with id " + productId));
+        Product result = productDomainService.updateProductStock(productId , quantity);
 
         // Wrap with DTO & return the modified result
        return ProductStockDTO.convertToDTO(result);
@@ -85,8 +69,10 @@ public class ProductService {
         // TODO ==> placeholder
         String category =  "Electronics"; // ( some outbound calls to the other microservice )
 
+
+
         // step 2 : get the items  which has same category, from the database
-        List<Product> products = productRepository.findByCategory(category);
+        List<Product> products = productDomainService.categoryProducts(category);
 
         // step 3 : make these items as a DTO , and return the list of it
         List<ProductDTO> preferProductDTOList = new ArrayList<>();
@@ -101,8 +87,7 @@ public class ProductService {
     public List<ProductStockDTO> getAvailableItems(){
 
         // step 1 : get the items which quantity is more than 1
-        List<Product> availableItems = productRepository.findByStockGreaterThan(1);
-
+        List<Product> availableItems = productDomainService.availableItems();
         // step 2 : make these as a DTO, and return the list of it.
         List<ProductStockDTO> availableProductDTOList = new ArrayList<>();
         for(Product product : availableItems){
@@ -112,7 +97,22 @@ public class ProductService {
     }
 
 
+    // returns the product information
+    public ProductInOrderDTO findProduct(Long productId){
 
+        return productDomainService.findProduct(productId);
+    }
+
+
+    // deducts the product stock
+    public void deductStock(PaymentCompleteEvent event){
+
+        for (ProductInfoDTO product : event.getProducts()){
+            productDomainService.deductStock(product.getProductId(), product.getQuantity());
+        }
+
+
+    }
 
 
 }

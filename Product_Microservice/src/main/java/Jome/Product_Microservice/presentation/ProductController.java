@@ -2,7 +2,9 @@ package Jome.Product_Microservice.presentation;
 
 import Jome.Product_Microservice.applicaion.ProductService;
 import Jome.Product_Microservice.dto.ProductDTO;
+import Jome.Product_Microservice.dto.ProductInOrderDTO;
 import Jome.Product_Microservice.dto.ProductStockDTO;
+import Jome.Product_Microservice.infrastructure.event.PaymentCompleteEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,10 +33,14 @@ public class ProductController {
 
     // implement the try catch for here
     @GetMapping("/get/{productId}")
-    public ResponseEntity<String> connectionString(@PathVariable Long productId){
-
-        String result = productService.isDataFlowWorking(productId);
-        return ResponseEntity.ok(result);
+    public ResponseEntity<ProductInOrderDTO> connectionString(@PathVariable Long productId){
+        try {
+            ProductInOrderDTO result = productService.findProduct(productId);
+            return ResponseEntity.ok(result);
+        }
+        catch(Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
 
@@ -64,6 +70,7 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
 
     // Use Case 3 : View Preferred Category product
@@ -96,8 +103,18 @@ public class ProductController {
     }
 
 
-    // Other Calls that needs to be used for Complex Usecases  : TODO
-
+    // Other Calls that needs to be used for Complex use cases
+    @PatchMapping("/patch/deduct")
+    public ResponseEntity<Void> deductProductStock(@RequestBody PaymentCompleteEvent event){
+        try{
+            productService.deductStock(event);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 
 
 

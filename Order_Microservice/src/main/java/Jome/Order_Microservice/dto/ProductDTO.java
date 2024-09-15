@@ -1,5 +1,9 @@
-package Jome.Product_Microservice.dto;
-import Jome.Product_Microservice.domain.entity.Product;
+// consideration : will using the DTO reasonable? can I just handle it as a object?
+// => yes, too show the passed product as a return value , the javeascript converter requries getters and setters
+// to properly transform it as a json object and return it as a response.
+
+
+package Jome.Order_Microservice.dto;
 
 public class ProductDTO {
 
@@ -19,20 +23,7 @@ public class ProductDTO {
     // constructor
     public ProductDTO(){}
 
-    // Constructor for converting Product into product DTO
-    public ProductDTO(Product product){
-        this.fullName = product.getFullName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
-        this.stock = product.getPrice();
-        this.category = product.getCategory();
-    }
-
     // static method to convert a class to DTO
-    public static ProductDTO convertToDTO(Product product){
-        return new ProductDTO(product);
-    }
-
 
     public String getFullName() {
         return fullName;
