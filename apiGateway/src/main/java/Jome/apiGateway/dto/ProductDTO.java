@@ -1,5 +1,5 @@
-package Jome.Product_Microservice.dto;
-import Jome.Product_Microservice.domain.entity.Product;
+package Jome.apiGateway.dto;
+
 
 public class ProductDTO {
 
@@ -19,19 +19,6 @@ public class ProductDTO {
     // constructor
     public ProductDTO(){}
 
-    // Constructor for converting Product into product DTO
-    public ProductDTO(Product product){
-        this.fullName = product.getFullName();
-        this.description = product.getDescription();
-        this.price = product.getPrice();
-        this.stock = product.getPrice();
-        this.category = product.getCategory();
-    }
-
-    // static method to convert a class to DTO
-    public static ProductDTO convertToDTO(Product product){
-        return new ProductDTO(product);
-    }
 
 
     public String getFullName() {

@@ -1,9 +1,11 @@
-package Jome.apiGateway.ApiGatewayController;
+package Jome.Order_Microservice.infrastructure.util;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.*;
 import org.springframework.web.client.RestTemplate;
 
-public class ApiGatewayHelper {
+
+public class ForwardHelper {
 
     // for get  & delete
     public static <T> ResponseEntity<T> forwardRequest(RestTemplate restTemplate, String serviceUrl, String endpoint, HttpMethod method, Class<T> responseType) {
@@ -15,21 +17,6 @@ public class ApiGatewayHelper {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
-
-    // for post / patch ( includes RequestBody ) => old version which can not handle things properly issue :
-    // (56) chunk hex-length char not a hex digit: 0x7b caused by duplicate transefer encoding
-
-//    public static <T, B> ResponseEntity<T> forwardRequest(RestTemplate restTemplate, String serviceUrl, String endpoint, HttpMethod method, B requestBody, Class<T> responseType) {
-//        String fullUrl = serviceUrl + endpoint;
-//        try {
-//            HttpEntity<B> requestEntity = new HttpEntity<>(requestBody);
-//            ResponseEntity<T> response = restTemplate.exchange(fullUrl, method, requestEntity, responseType);
-//            return response;
-//        } catch (Exception e) {
-//            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-//        }
-//    }
 
     public static <T, B> ResponseEntity<T> forwardRequest(RestTemplate restTemplate, String serviceUrl, String endpoint, HttpMethod method, B requestBody, Class<T> responseType) {
         String fullUrl = serviceUrl + endpoint;
@@ -49,5 +36,4 @@ public class ApiGatewayHelper {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 }
