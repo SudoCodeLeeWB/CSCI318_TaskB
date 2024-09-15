@@ -53,7 +53,7 @@ public class OrderController {
     }
 
     // Use Case 3: Mark the order as delivered
-    @PatchMapping("/deliver/{shippedId}")
+    @PostMapping("/deliver/{shippedId}")
     public ResponseEntity<ShippedDTO> markOrderAsDelivered(@PathVariable Long shippedId) {
         ShippedDTO deliveredOrderDTO = orderService.deliveryFinish(shippedId);
         if (deliveredOrderDTO != null) {

@@ -19,8 +19,6 @@ public class ProductDTO {
     // constructor
     public ProductDTO(){}
 
-
-
     public String getFullName() {
         return fullName;
     }
